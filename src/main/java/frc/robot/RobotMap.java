@@ -33,8 +33,8 @@ public class RobotMap {
 	static CANTalon1989 towerLeft = new CANTalon1989(8);
 	static CANTalon1989 towerRight = new CANTalon1989(5);
 	
-	static Servo servo = new Servo(0);
-	public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();  
+	//static Servo servo = new Servo(0);
+	//public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();  
 
 
 }

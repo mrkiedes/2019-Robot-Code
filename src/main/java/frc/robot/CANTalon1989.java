@@ -1,5 +1,6 @@
-package org.usfirst.frc.team1989.robot;
+package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -20,6 +21,7 @@ public class CANTalon1989 extends WPI_TalonSRX{
 		this.overcurrent = 0;
 		lasttimer = t1.get();
 	}
+
 	public CANTalon1989(int deviceNumber, int controlPeriodMs) {
 		super(deviceNumber, controlPeriodMs);
 		// TODO Auto-generated constructor stub
@@ -57,7 +59,7 @@ public class CANTalon1989 extends WPI_TalonSRX{
 			t1.reset();
 			lasttimer = t1.get();
 		}
-		super.set(dSpeed);
+		super.set(ControlMode.PercentOutput, dSpeed);
 	}
 	public String getSmartDashboardType() {
 		// TODO Auto-generated method stub
