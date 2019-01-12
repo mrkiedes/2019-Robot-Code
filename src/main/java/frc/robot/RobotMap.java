@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
 public class RobotMap {
 
   static CANTalon1989 frontLeft = new CANTalon1989(6);
@@ -15,6 +17,6 @@ public class RobotMap {
 	static CANTalon1989 backRight = new CANTalon1989(9);
 	
 	//static Servo servo = new Servo(0);
-  //public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();  
+  public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();  
   
 }

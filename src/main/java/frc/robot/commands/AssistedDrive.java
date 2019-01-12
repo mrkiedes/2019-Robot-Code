@@ -10,8 +10,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Drive extends Command {
-  public Drive() {
+public class AssistedDrive extends Command {
+  public AssistedDrive() {
+    // Use requires() here to declare subsystem dependencies
     requires(Robot.driveTrain);
   }
 
@@ -23,7 +24,7 @@ public class Drive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.drive(Robot.oi.driveStick);
+    Robot.driveTrain.visionAssistedDrive(Robot.oi.driveStick, 0, 0, "test");
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -35,7 +36,6 @@ public class Drive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.driveTrain.stop();
   }
 
   // Called when another command which requires one or more of the same

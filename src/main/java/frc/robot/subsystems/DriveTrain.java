@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.CANTalon1989;
@@ -18,18 +19,26 @@ import frc.robot.commands.Drive;
  */
 public class DriveTrain extends Subsystem {
   
-  CANTalon1989 frontLeft;
-  CANTalon1989 frontRight;
-  CANTalon1989 backLeft;
-  CANTalon1989 backRight;
+  private CANTalon1989 frontLeft;
+  private CANTalon1989 frontRight;
+  private CANTalon1989 backLeft;
+  private CANTalon1989 backRight;
 
-  MecanumDrive mDrive;
+  private double xSpeed;
+  private double ySpeed;
+  private double zRotation;
+  private double gyroAngle;
 
-  public DriveTrain(CANTalon1989 frontLeft, CANTalon1989 backLeft, CANTalon1989 frontRight, CANTalon1989 backRight) {
+  private ADXRS450_Gyro gyro;
+
+  private MecanumDrive mDrive;
+
+  public DriveTrain(CANTalon1989 frontLeft, CANTalon1989 backLeft, CANTalon1989 frontRight, CANTalon1989 backRight, ADXRS450_Gyro gyro) {
     this.frontLeft = frontLeft;
     this.backLeft = backLeft;
     this.frontRight = frontRight;
     this.backRight = backRight;
+    this.gyro = gyro;
     mDrive = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
     mDrive.setSafetyEnabled(true);
   }
@@ -41,10 +50,24 @@ public class DriveTrain extends Subsystem {
   }
 
   public void drive(JsScaled joy) {
-    double moveY = joy.sgetY();
-    double moveX = -joy.sgetX();
-    double moveTwist = -joy.sgetTwist();
-    mDrive.driveCartesian(moveX, moveY, moveTwist);
+    getJoystickValues(joy);
+    mDrive.driveCartesian(xSpeed, ySpeed, zRotation);
+  }
+
+  public void visionAssistedDrive(JsScaled joy, double computerYSpeed, double angle, String goal) {
+    getJoystickValues(joy);
+    gyroAngle = gyro.getAngle(); 
+    if(goal == "line_found") {
+      ySpeed = computerYSpeed;
+      zRotation = angle;
+    }
+    mDrive.driveCartesian(xSpeed, ySpeed, zRotation);
+  }
+
+  private void getJoystickValues(JsScaled joy) {
+    ySpeed = joy.sgetY();
+    xSpeed = -joy.sgetX();
+    zRotation = -joy.sgetTwist();
   }
 
   public void stop() {

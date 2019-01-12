@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Button;
+import frc.robot.commands.AssistedDrive;
 
 public class OI {
 
@@ -16,8 +19,10 @@ public class OI {
   public JsScaled driveStick = new JsScaled(leftJoystickPort);
   public JsScaled utilityStick = new JsScaled(rightJoystickPort);
 
-  public OI() {
+  public Button visionAssist = new JoystickButton(driveStick, 1);
 
+  public OI() {
+    visionAssist.whileHeld(new AssistedDrive());
   }
 
 }
