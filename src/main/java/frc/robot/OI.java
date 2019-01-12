@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Button;
 import frc.robot.commands.AssistedDrive;
+import frc.robot.command_group.*;
 
 public class OI {
 
@@ -20,9 +21,15 @@ public class OI {
   public JsScaled utilityStick = new JsScaled(rightJoystickPort);
 
   public Button visionAssist = new JoystickButton(driveStick, 1);
+  public Button activateJack = new JoystickButton(driveStick, 9);
+  public Button setDefaultConfig = new JoystickButton(utilityStick, 8);
+  public Button overrideAutomatedCommands = new JoystickButton(driveStick, 5);
 
   public OI() {
     visionAssist.whileHeld(new AssistedDrive());
+    activateJack.whenPressed(new AutoLift());
+    //setDefaultConfig.whenPressed(new Command);
+    overrideAutomatedCommands.cancelWhenPressed(new AutoLift());
   }
 
 }

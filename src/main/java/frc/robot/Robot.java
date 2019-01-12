@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +23,8 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain = new DriveTrain(RobotMap.frontLeft, RobotMap.backLeft, RobotMap.frontRight, RobotMap.backRight, RobotMap.gyro);
+  public static Jacks jacks = new Jacks(RobotMap.jackDrivenMotor);
+  //public static Tower tower = new Tower();
   public static OI oi;
 
   Command m_autonomousCommand;
