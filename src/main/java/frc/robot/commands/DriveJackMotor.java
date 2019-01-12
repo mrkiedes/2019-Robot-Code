@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class DriveJackMotor extends Command {
 
   DigitalInput limitSwitch;
+  double speed;
 
-  public DriveJackMotor(DigitalInput limitSwitch) {
+  public DriveJackMotor(DigitalInput limitSwitch, double speed) {
     requires(Robot.jacks);
     this.limitSwitch = limitSwitch;
+    this.speed = speed;
   }
 
   // Called just before this Command runs the first time
@@ -28,7 +30,7 @@ public class DriveJackMotor extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.jacks.driveForward();
+    Robot.jacks.driveForward(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

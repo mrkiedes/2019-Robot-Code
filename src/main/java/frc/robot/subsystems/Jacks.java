@@ -30,8 +30,8 @@ public class Jacks extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void driveForward() {
-    jackDrivenMotor.set(.5);
+  public void driveForward(double speed) {
+    jackDrivenMotor.set(speed);
   }
 
   public boolean checkLimitSwitch(DigitalInput limitSwitch) {
@@ -42,9 +42,8 @@ public class Jacks extends Subsystem {
     }
   }
 
-  public void liftJacks(CANTalon1989 jackMotor1, CANTalon1989 jackMotor2, double speed) {
-    jackMotor1.set(speed);
-    jackMotor2.set(speed);
+  public void liftJacks(CANTalon1989 jackMotor, double speed) {
+    jackMotor.set(speed);
   }
 
 }

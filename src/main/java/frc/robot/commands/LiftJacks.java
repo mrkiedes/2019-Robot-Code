@@ -13,14 +13,13 @@ import frc.robot.Robot;
 
 public class LiftJacks extends Command {
 
-  private CANTalon1989 jackMotor1, jackMotor2;
+  private CANTalon1989 jackMotor;
   private double speed;
 
-  public LiftJacks(CANTalon1989 jackMotor1, CANTalon1989 jackMotor2, double speed) {
+  public LiftJacks(CANTalon1989 jackMotor, double speed) {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.jacks);
-    this.jackMotor1 = jackMotor1;
-    this.jackMotor2 = jackMotor2;
+    this.jackMotor = jackMotor;
     this.speed = speed;
   }
 
@@ -32,7 +31,7 @@ public class LiftJacks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.jacks.liftJacks(jackMotor1, jackMotor2, speed);
+    Robot.jacks.liftJacks(jackMotor, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

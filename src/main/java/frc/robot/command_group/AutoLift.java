@@ -22,13 +22,14 @@ public class AutoLift extends CommandGroup {
     requires(Robot.driveTrain);
 
     double liftTime = 3;
-    double speed = 0.5;
+    double liftSpeed = 0.5;
+    double driveSpeed = 0.5;
 
-    addParallel(new LiftJacks(RobotMap.frontRightJack, RobotMap.frontLeftJack, speed), liftTime);
-    addParallel(new LiftJacks(RobotMap.backLeftJack, RobotMap.backRightJack, speed), liftTime);
-    addSequential(new DriveJackMotor(RobotMap.frontJackLimitSwitch));
-    addSequential(new LiftJacks(RobotMap.frontRightJack, RobotMap.frontLeftJack, -speed), liftTime);
-    addParallel(new DriveJackMotor(RobotMap.backJackLimitSwitch));
-    addSequential(new LiftJacks(RobotMap.backRightJack, RobotMap.backLeftJack, -speed), liftTime);
+    addParallel(new LiftJacks(RobotMap.frontJack, liftSpeed), liftTime);
+    addParallel(new LiftJacks(RobotMap.backJack, liftSpeed), liftTime);
+    addSequential(new DriveJackMotor(RobotMap.frontJackLimitSwitch, driveSpeed));
+    addSequential(new LiftJacks(RobotMap.frontJack, -liftSpeed), liftTime);
+    addSequential(new DriveJackMotor(RobotMap.backJackLimitSwitch, driveSpeed));
+    addSequential(new LiftJacks(RobotMap.backJack, -liftSpeed), liftTime);
   }
 }

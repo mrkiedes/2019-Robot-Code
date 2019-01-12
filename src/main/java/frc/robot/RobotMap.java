@@ -19,13 +19,11 @@ public class RobotMap {
 	public static CANTalon1989 backRight = new CANTalon1989(3);
 
 	//Talons for jack
-	public static CANTalon1989 frontLeftJack = new CANTalon1989(4);
-	public static CANTalon1989 frontRightJack = new CANTalon1989(5);
-	public static CANTalon1989 backLeftJack = new CANTalon1989(6);
-	public static CANTalon1989 backRightJack = new CANTalon1989(7);
+	public static CANTalon1989 frontJack = new CANTalon1989(4);
+	public static CANTalon1989 backJack = new CANTalon1989(5);
 	
 	//Talon for jack motor
-	public static CANTalon1989 jackDrivenMotor = new CANTalon1989(8);
+	public static CANTalon1989 jackDrivenMotor = new CANTalon1989(6);
 	
 	//static Servo servo = new Servo(0);
 	public static ADXRS450_Gyro gyro = new ADXRS450_Gyro(); 
