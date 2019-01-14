@@ -22,8 +22,9 @@ import frc.robot.subsystems.*;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static DriveTrain driveTrain = new DriveTrain(RobotMap.frontLeft, RobotMap.backLeft, RobotMap.frontRight, RobotMap.backRight, RobotMap.gyro);
-  public static Jacks jacks = new Jacks(RobotMap.jackDrivenMotor);
+  
+  public static DriveTrain driveTrain = new DriveTrain();
+  public static Jacks jacks = new Jacks();
   //public static Tower tower = new Tower();
   public static OI oi;
 

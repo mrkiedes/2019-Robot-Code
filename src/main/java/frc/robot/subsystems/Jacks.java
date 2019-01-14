@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.CANTalon1989;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -18,11 +19,7 @@ public class Jacks extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private CANTalon1989 jackDrivenMotor;
-
-  public Jacks(CANTalon1989 jackDrivenMotor) {
-    this.jackDrivenMotor = jackDrivenMotor;
-  }
+  private CANTalon1989 jackDrivenMotor = RobotMap.jackDrivenMotor;
 
   @Override
   public void initDefaultCommand() {
