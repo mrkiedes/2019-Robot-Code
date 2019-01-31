@@ -16,6 +16,10 @@ public class LiftJacks extends Command {
   private CANTalon1989 jackMotor;
   private double speed;
 
+  public LiftJacks() {
+    requires(Robot.jacks);
+  }
+
   public LiftJacks(CANTalon1989 jackMotor, double speed) {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.jacks);
@@ -43,6 +47,8 @@ public class LiftJacks extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.jacks.liftJacks(jackMotor, 0);
+    Robot.jacks.stop();
   }
 
   // Called when another command which requires one or more of the same

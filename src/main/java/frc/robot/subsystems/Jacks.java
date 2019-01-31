@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.CANTalon1989;
 import frc.robot.RobotMap;
+import frc.robot.commands.LiftJacks;
 
 /**
  * Add your docs here.
@@ -24,7 +25,6 @@ public class Jacks extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 
   public void driveForward(double speed) {
@@ -41,6 +41,10 @@ public class Jacks extends Subsystem {
 
   public void liftJacks(CANTalon1989 jackMotor, double speed) {
     jackMotor.set(speed);
+  }
+
+  public void stop() {
+    jackDrivenMotor.set(0);
   }
 
 }

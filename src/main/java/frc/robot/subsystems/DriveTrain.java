@@ -20,25 +20,37 @@ import frc.robot.commands.Drive;
  */
 public class DriveTrain extends Subsystem {
   
-  private CANTalon1989 frontLeft = RobotMap.frontLeft;
-  private CANTalon1989 frontRight = RobotMap.frontRight;
-  private CANTalon1989 backLeft = RobotMap.backLeft;
-  private CANTalon1989 backRight = RobotMap.backRight;
+  private CANTalon1989 frontLeft;
+  private CANTalon1989 frontRight;
+  private CANTalon1989 backLeft;
+  private CANTalon1989 backRight;
 
   private double xSpeed;
   private double ySpeed;
   private double zRotation;
   private double gyroAngle;
 
-  private ADXRS450_Gyro gyro = RobotMap.gyro;
+  private ADXRS450_Gyro gyro;
 
   private MecanumDrive mDrive;
 
-  public DriveTrain() {
+  public DriveTrain(CANTalon1989 frontLeft, CANTalon1989 backLeft, CANTalon1989 frontRight, CANTalon1989 backRight) {
+    this.frontLeft = frontLeft;
+    this.frontRight = frontRight;
+    this.backLeft = backLeft;
+    this.backRight = backRight;
     mDrive = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
     mDrive.setSafetyEnabled(true);
   }
 
+  public DriveTrain(CANTalon1989 frontLeft, CANTalon1989 backLeft, CANTalon1989 frontRight, CANTalon1989 backRight, ADXRS450_Gyro gyro) {
+    this.frontLeft = frontLeft;
+    this.frontRight = frontRight;
+    this.backLeft = backLeft;
+    this.backRight = backRight;
+    mDrive = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
+    mDrive.setSafetyEnabled(true);
+  }
 
   @Override
   public void initDefaultCommand() {

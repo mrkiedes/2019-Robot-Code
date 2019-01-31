@@ -14,9 +14,7 @@ import frc.robot.commands.DriveJackMotor;
 import frc.robot.commands.LiftJacks;
 
 public class AutoLift extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
+
   public AutoLift() {
     requires(Robot.jacks);
     requires(Robot.driveTrain);
@@ -32,4 +30,5 @@ public class AutoLift extends CommandGroup {
     addSequential(new DriveJackMotor(RobotMap.backJackLimitSwitch, driveSpeed));
     addSequential(new LiftJacks(RobotMap.backJack, -liftSpeed), liftTime);
   }
+  
 }
