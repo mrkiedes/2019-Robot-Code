@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
@@ -31,19 +34,52 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  NetworkTableInstance inst;
+  NetworkTable visionTable;
+  NetworkTableEntry robotState;
+  NetworkTableEntry yEntry;
+  NetworkTableEntry angleEntry;
+
+  private static double y;
+  private static double angle;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
+    y = 0;
+    angle = 0;
     oi = new OI();
     RobotMap.gyro.calibrate();
     RobotMap.backRight.setInverted(true);
     RobotMap.frontRight.setInverted(true);
 
-    RobotMap.backLeft.setInverted(false);
-    RobotMap.frontLeft.setInverted(false);
+    RobotMap.backLeft.setInverted(true);
+    RobotMap.frontLeft.setInverted(true);
+
+    inst = NetworkTableInstance.getDefault();
+    visionTable = inst.getTable("VisionTable");
+    robotState = visionTable.getEntry("RobotState");
+    yEntry = visionTable.getEntry("Y");
+    angleEntry = visionTable.getEntry("Angle");
+    inst.startClientTeam(1989);
+
+    Thread networkTableThread = new Thread(() -> {
+
+      while (!Thread.interrupted()) {
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+          return;
+        }
+        y = yEntry.getDouble(0.0);
+        angle = angleEntry.getDouble(0.0);
+      }
+    });
+    networkTableThread.start();
+
     //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     //SmartDashboard.putData("Auto mode", m_chooser);
@@ -68,6 +104,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    robotState.setString("disabled");
   }
 
   @Override
@@ -89,7 +126,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
-
+    robotState.setString("autonomous");
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -117,7 +154,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    
+    robotState.setString("teleop");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -137,4 +174,13 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+
+  public static double getAngle() {
+    return angle;
+  }
+
+  public static double getY() {
+    return y;
+  }
+
 }

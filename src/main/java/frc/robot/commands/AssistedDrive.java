@@ -24,7 +24,7 @@ public class AssistedDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.visionAssistedDrive(Robot.oi.driveStick, 0, 0, "test");
+    Robot.driveTrain.visionAssistedDrive(Robot.oi.driveStick, Robot.getY(), Robot.getAngle());
   }
 
   // Make this return true when this Command no longer needs to run execute()

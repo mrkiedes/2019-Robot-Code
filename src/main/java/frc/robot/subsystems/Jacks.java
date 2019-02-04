@@ -20,15 +20,16 @@ public class Jacks extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private CANTalon1989 jackDrivenMotor = RobotMap.jackDrivenMotor;
+  private CANTalon1989 motor;
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
   }
 
-  public void driveForward(double speed) {
-    jackDrivenMotor.set(speed);
+  public void driveForward(CANTalon1989 motor, double speed) {
+    this.motor = motor;
+    motor.set(speed);
   }
 
   public boolean checkLimitSwitch(DigitalInput limitSwitch) {
@@ -39,12 +40,13 @@ public class Jacks extends Subsystem {
     }
   }
 
-  public void liftJacks(CANTalon1989 jackMotor, double speed) {
-    jackMotor.set(speed);
+  public void moveJacks(CANTalon1989 motor, double speed) {
+    this.motor = motor;
+    motor.set(speed);
   }
 
   public void stop() {
-    jackDrivenMotor.set(0);
+    motor.set(0);
   }
 
 }

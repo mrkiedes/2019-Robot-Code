@@ -35,7 +35,7 @@ public class LiftJacks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.jacks.liftJacks(jackMotor, speed);
+    Robot.jacks.moveJacks(jackMotor, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -47,7 +47,6 @@ public class LiftJacks extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.jacks.liftJacks(jackMotor, 0);
     Robot.jacks.stop();
   }
 

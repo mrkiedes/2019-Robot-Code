@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class RobotMap {
 
 	//Talons for drivetrain
-  	public static CANTalon1989 frontLeft = new CANTalon1989(8);
-	public static CANTalon1989 backLeft = new CANTalon1989(3);
-	public static CANTalon1989 frontRight = new CANTalon1989(2);
-	public static CANTalon1989 backRight = new CANTalon1989(1);
+  	public static CANTalon1989 frontLeft = new CANTalon1989(7);
+	public static CANTalon1989 backLeft = new CANTalon1989(1);
+	public static CANTalon1989 frontRight = new CANTalon1989(8);
+	public static CANTalon1989 backRight = new CANTalon1989(2);
 
 	//Talons for jack
 	public static CANTalon1989 frontJack = new CANTalon1989(7);

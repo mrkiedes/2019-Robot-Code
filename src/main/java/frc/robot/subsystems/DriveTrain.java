@@ -30,20 +30,14 @@ public class DriveTrain extends Subsystem {
   private double zRotation;
   private double gyroAngle;
 
-  private ADXRS450_Gyro gyro;
+  private ADXRS450_Gyro gyro = RobotMap.gyro;
 
   private MecanumDrive mDrive;
 
-  public DriveTrain(CANTalon1989 frontLeft, CANTalon1989 backLeft, CANTalon1989 frontRight, CANTalon1989 backRight) {
-    this.frontLeft = frontLeft;
-    this.frontRight = frontRight;
-    this.backLeft = backLeft;
-    this.backRight = backRight;
-    mDrive = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
-    mDrive.setSafetyEnabled(true);
-  }
+  static double error = 0;
+  static double kP = 0.00975;
 
-  public DriveTrain(CANTalon1989 frontLeft, CANTalon1989 backLeft, CANTalon1989 frontRight, CANTalon1989 backRight, ADXRS450_Gyro gyro) {
+  public DriveTrain(CANTalon1989 frontLeft, CANTalon1989 backLeft, CANTalon1989 frontRight, CANTalon1989 backRight) {
     this.frontLeft = frontLeft;
     this.frontRight = frontRight;
     this.backLeft = backLeft;
@@ -59,16 +53,19 @@ public class DriveTrain extends Subsystem {
 
   public void drive(JsScaled joy) {
     getJoystickValues(joy);
+    if(xSpeed == 0 && zRotation == 0) {
+      gyroAngle = gyro.getAngle();
+      error = -gyroAngle;
+      zRotation = kP * error;
+    }
     mDrive.driveCartesian(xSpeed, ySpeed, zRotation);
   }
 
-  public void visionAssistedDrive(JsScaled joy, double computerYSpeed, double angle, String goal) {
+  public void visionAssistedDrive(JsScaled joy, double computerYSpeed, double angle) {
     getJoystickValues(joy);
     gyroAngle = gyro.getAngle(); 
-    if(goal == "line_found") {
-      ySpeed = computerYSpeed;
-      zRotation = angle;
-    }
+    xSpeed = computerYSpeed;
+    zRotation = angle;
     mDrive.driveCartesian(xSpeed, ySpeed, zRotation);
   }
 
@@ -76,6 +73,11 @@ public class DriveTrain extends Subsystem {
     ySpeed = joy.sgetY();
     xSpeed = -joy.sgetX();
     zRotation = -joy.sgetTwist();
+  }
+
+  public void rotate(double angle) {
+    error = angle - gyro.getAngle();
+    mDrive.driveCartesian(0, 0, error*kP);
   }
 
   public void stop() {

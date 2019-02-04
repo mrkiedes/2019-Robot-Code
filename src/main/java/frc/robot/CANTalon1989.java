@@ -59,7 +59,7 @@ public class CANTalon1989 extends WPI_TalonSRX{
 			t1.reset();
 			lasttimer = t1.get();
 		}
-		super.set(ControlMode.PercentOutput, dSpeed);
+		super.set(dSpeed);
 	}
 	public String getSmartDashboardType() {
 		// TODO Auto-generated method stub

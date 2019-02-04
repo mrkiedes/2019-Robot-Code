@@ -8,16 +8,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.CANTalon1989;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class DriveJackMotor extends Command {
 
+  CANTalon1989 motor;
   DigitalInput limitSwitch;
   double speed;
 
-  public DriveJackMotor(DigitalInput limitSwitch, double speed) {
+  public DriveJackMotor(CANTalon1989 motor, DigitalInput limitSwitch, double speed) {
     requires(Robot.jacks);
+    this.motor = motor;
     this.limitSwitch = limitSwitch;
     this.speed = speed;
   }
@@ -30,7 +33,7 @@ public class DriveJackMotor extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.jacks.driveForward(speed);
+    Robot.jacks.driveForward(motor, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
