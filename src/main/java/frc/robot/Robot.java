@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -59,7 +62,10 @@ public class Robot extends TimedRobot {
     RobotMap.backLeft.setInverted(true);
     RobotMap.frontLeft.setInverted(true);
 
-    inst = NetworkTableInstance.getDefault();
+    RobotMap.frontJack.setNeutralMode(NeutralMode.Brake);
+    RobotMap.backJack.setNeutralMode(NeutralMode.Brake);
+
+    /*inst = NetworkTableInstance.getDefault();
     visionTable = inst.getTable("VisionTable");
     robotState = visionTable.getEntry("RobotState");
     yEntry = visionTable.getEntry("Y");
@@ -75,10 +81,11 @@ public class Robot extends TimedRobot {
           return;
         }
         y = yEntry.getDouble(0.0);
+        System.out.println(y);
         angle = angleEntry.getDouble(0.0);
       }
     });
-    networkTableThread.start();
+    networkTableThread.start();*/
 
     //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
@@ -104,7 +111,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    robotState.setString("disabled");
+    //robotState.setString("disabled");
   }
 
   @Override
@@ -126,7 +133,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
-    robotState.setString("autonomous");
+    //robotState.setString("autonomous");
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -154,7 +161,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    robotState.setString("teleop");
+    
+    //robotState.setString("teleop");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

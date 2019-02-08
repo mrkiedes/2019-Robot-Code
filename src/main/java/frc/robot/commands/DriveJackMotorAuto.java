@@ -10,20 +10,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.CANTalon1989;
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj.DigitalInput;
 
-public class LiftJacks extends Command {
+public class DriveJackMotorAuto extends Command {
 
-  private CANTalon1989 jackMotor;
-  private double speed;
+  CANTalon1989 motor;
+  DigitalInput limitSwitch;
+  double speed;
 
-  public LiftJacks() {
+  public DriveJackMotorAuto(CANTalon1989 motor, DigitalInput limitSwitch, double speed) {
     requires(Robot.jacks);
-  }
-
-  public LiftJacks(CANTalon1989 jackMotor, double speed) {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.jacks);
-    this.jackMotor = jackMotor;
+    this.motor = motor;
+    this.limitSwitch = limitSwitch;
     this.speed = speed;
   }
 
@@ -35,19 +33,19 @@ public class LiftJacks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.jacks.moveJacks(jackMotor, speed);
+    Robot.jacks.driveForward(motor, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.jacks.checkLimitSwitch(limitSwitch);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.jacks.stop();
+    Robot.jacks.stopMotor();
   }
 
   // Called when another command which requires one or more of the same
