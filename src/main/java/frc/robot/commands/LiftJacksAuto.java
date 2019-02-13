@@ -8,12 +8,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.CANTalon1989;
 import frc.robot.Robot;
 
-public class AssistedDrive extends Command {
-  public AssistedDrive() {
+public class LiftJacksAuto extends Command {
+
+  private CANTalon1989 jackMotor;
+  private double speed;
+
+  public LiftJacksAuto(CANTalon1989 jackMotor, double speed) {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.driveTrain);
+    requires(Robot.jacks);
+    this.jackMotor = jackMotor;
+    this.speed = speed;
   }
 
   // Called just before this Command runs the first time
@@ -24,7 +31,7 @@ public class AssistedDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.visionAssistedDrive(Robot.oi.driveStick, Robot.getY(), Robot.getAngle());
+    Robot.jacks.moveJacksAuto(jackMotor, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -36,7 +43,7 @@ public class AssistedDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.driveTrain.stop();
+    Robot.jacks.stopJacks();
   }
 
   // Called when another command which requires one or more of the same

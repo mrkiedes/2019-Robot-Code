@@ -10,26 +10,26 @@ package frc.robot.command_group;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.commands.DriveJackMotor;
-import frc.robot.commands.LiftJacks;
+import frc.robot.commands.DriveJackMotorAuto;
+import frc.robot.commands.LiftJacksAuto;
 
 public class AutoLift extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
+
   public AutoLift() {
     requires(Robot.jacks);
     requires(Robot.driveTrain);
 
     double liftTime = 3;
+    double retractTime = 3;
     double liftSpeed = 0.5;
     double driveSpeed = 0.5;
 
-    addParallel(new LiftJacks(RobotMap.frontJack, liftSpeed), liftTime);
-    addParallel(new LiftJacks(RobotMap.backJack, liftSpeed), liftTime);
-    addSequential(new DriveJackMotor(RobotMap.frontJackLimitSwitch, driveSpeed));
-    addSequential(new LiftJacks(RobotMap.frontJack, -liftSpeed), liftTime);
-    addSequential(new DriveJackMotor(RobotMap.backJackLimitSwitch, driveSpeed));
-    addSequential(new LiftJacks(RobotMap.backJack, -liftSpeed), liftTime);
+    addParallel(new LiftJacksAuto(RobotMap.frontJack, liftSpeed), liftTime);
+    addParallel(new LiftJacksAuto(RobotMap.backJack, liftSpeed), liftTime);
+    addSequential(new DriveJackMotorAuto(RobotMap.jackDrivenMotor, RobotMap.frontJackLimitSwitch, driveSpeed));
+    addSequential(new LiftJacksAuto(RobotMap.frontJack, -liftSpeed), retractTime);
+    addSequential(new DriveJackMotorAuto(RobotMap.jackDrivenMotor, RobotMap.backJackLimitSwitch, driveSpeed));
+    addSequential(new LiftJacksAuto(RobotMap.backJack, -liftSpeed), retractTime);
   }
+  
 }

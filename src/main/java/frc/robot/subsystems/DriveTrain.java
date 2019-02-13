@@ -20,10 +20,10 @@ import frc.robot.commands.Drive;
  */
 public class DriveTrain extends Subsystem {
   
-  private CANTalon1989 frontLeft = RobotMap.frontLeft;
-  private CANTalon1989 frontRight = RobotMap.frontRight;
-  private CANTalon1989 backLeft = RobotMap.backLeft;
-  private CANTalon1989 backRight = RobotMap.backRight;
+  private CANTalon1989 frontLeft;
+  private CANTalon1989 frontRight;
+  private CANTalon1989 backLeft;
+  private CANTalon1989 backRight;
 
   private double xSpeed;
   private double ySpeed;
@@ -34,11 +34,17 @@ public class DriveTrain extends Subsystem {
 
   private MecanumDrive mDrive;
 
-  public DriveTrain() {
+  static double error = 0;
+  static double kP = 0.00975;
+
+  public DriveTrain(CANTalon1989 frontLeft, CANTalon1989 backLeft, CANTalon1989 frontRight, CANTalon1989 backRight) {
+    this.frontLeft = frontLeft;
+    this.frontRight = frontRight;
+    this.backLeft = backLeft;
+    this.backRight = backRight;
     mDrive = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
     mDrive.setSafetyEnabled(true);
   }
-
 
   @Override
   public void initDefaultCommand() {
@@ -47,16 +53,19 @@ public class DriveTrain extends Subsystem {
 
   public void drive(JsScaled joy) {
     getJoystickValues(joy);
+    if(xSpeed == 0 && zRotation == 0) {
+      gyroAngle = gyro.getAngle();
+      error = -gyroAngle;
+      zRotation = kP * error;
+    }
     mDrive.driveCartesian(xSpeed, ySpeed, zRotation);
   }
 
-  public void visionAssistedDrive(JsScaled joy, double computerYSpeed, double angle, String goal) {
+  public void visionAssistedDrive(JsScaled joy, double computerYSpeed, double angle) {
     getJoystickValues(joy);
     gyroAngle = gyro.getAngle(); 
-    if(goal == "line_found") {
-      ySpeed = computerYSpeed;
-      zRotation = angle;
-    }
+    xSpeed = computerYSpeed;
+    zRotation = angle;
     mDrive.driveCartesian(xSpeed, ySpeed, zRotation);
   }
 
@@ -64,6 +73,11 @@ public class DriveTrain extends Subsystem {
     ySpeed = joy.sgetY();
     xSpeed = -joy.sgetX();
     zRotation = -joy.sgetTwist();
+  }
+
+  public void rotate(double angle) {
+    error = angle - gyro.getAngle();
+    mDrive.driveCartesian(0, 0, error*kP);
   }
 
   public void stop() {
